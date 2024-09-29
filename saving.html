@@ -6,19 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-<!-- シミュレーション結果を表示 -->
 <img id="simulation-result" src="463_00.jpg" alt="シミュレーション結果">
-<!-- 星ボタン -->
 <button id="bookmark-btn" onclick="saveBookmark()">★</button>
 
 <script>
 function saveBookmark() {
     const simulationData = {
     imageUrl: document.getElementById('simulation-result').src,
-    userId: 1  // ユーザーIDなどの情報
+    userId: '' 
 };
     
-    // シミュレーション結果をサーバーに送信
+    
     fetch('/create/user.php', {
     method: 'POST',
     headers: {
