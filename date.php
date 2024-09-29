@@ -1,10 +1,8 @@
 <?php
-// データベース接６
 // データベース接続
 include 'db.php';
 
-// ユーザーの保存したブックマークを取得
-$user_id = 1;  // ログインしているユーザーIDを使用
+$user_id = '';  
 $stmt = $pdo->prepare("SELECT * FROM bookmarks WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $bookmarks = $stmt->fetchAll();
