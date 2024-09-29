@@ -2,7 +2,6 @@
 // データベース接続
 require_once __DIR__ . '/db.php';
 
-// デバッグモード（本番環境ではfalseにする）
 $debug = true;
 
 function debug_log($message) {
@@ -12,22 +11,20 @@ function debug_log($message) {
     }
 }
 
-// エラーメッセージを格納する変数
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // POSTメソッドで送信された場合
+
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // 入力チェック
     if (empty($username) || empty($password)) {
         $error = '全てのフィールドを入力してください。';
     } else {
         try {
-            // データベースからユーザー情報を取得
+    
             $sql = 'SELECT * FROM users WHERE username = :username';
-            $stmt = $pdo->prepare($sql);  // $db を $pdo に変更
+            $stmt = $pdo->prepare($sql);  
             $stmt->execute(['username' => $username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -43,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } catch (PDOException $e) {
             debug_log("データベースエラー: " . $e->getMessage());
-            $error = 'システムエラーが発生しました。管理者にお問い合わせください。';
+            $error = 'システムエラーが発生しました。';
         }
     }
 }
