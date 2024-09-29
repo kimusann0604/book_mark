@@ -1,24 +1,19 @@
 <?php
-// データベース接続
 require 'db.php';
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // 入力が空でないか確認します
     if (!empty($username) && !empty($password)) {
-        // ユーザー名が既に存在するか確認
         $checkUser = $pdo->prepare("SELECT * FROM users WHERE username = :username");
         $checkUser->execute(['username' => $username]);
         
         if ($checkUser->rowCount() > 0) {
             echo "このユーザー名は既に使用されています。";
         } else {
-            // パスワードをハッシュ化します
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // 新しいユーザーをデータベースに挿入します
             $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute(['username' => $username, 'password' => $hashedPassword]);
